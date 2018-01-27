@@ -3,10 +3,12 @@ import numpy as np
 import sys
 import os
 from collections import namedtuple
+import pyplot_helper as plt
 
-Data = namedtuple("Data", ("x1", "x2", "y1", "y2", "xall", "yall"))
 
 class Data(object):
+
+    __slots__ = ["x1", "x2", "y1", "y2", "x_all", "y_all"]
 
     def __init__(self, file, y2label=0):
         
@@ -33,11 +35,11 @@ class Data(object):
         self.x_all = np.concatenate([self.x1, self.x2], axis=1)
         self.y_all = np.concatenate([self.y1, self.y2])
 
-
-
-
 if __name__ == '__main__':
 
-    Data('sample.txt')
+    data = Data('sample.txt')
+    print(data)
+    plt.plot_main(data.x1, data.x2)
+    plt.show()
 
 

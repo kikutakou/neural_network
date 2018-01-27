@@ -6,7 +6,7 @@ import sys
 import matplotlib.animation as animation
 from modules.load_data import Data
 from modules.neural_network import NeuralNetwork
-from modules.pyplot_helper import plt
+import modules.pyplot_helper as plt
 
 
 
@@ -30,31 +30,25 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     parser.add_argument("data", help="data per line, [x[0],x[1],label] data separated by tab")
-    parser.add_argument("-a", "--activation-func", choices=['tanh', 'sigmoid'], default='tanh')
-    parser.add_argument("-s", "--sigmoid", action="store_true")
     parser.add_argument("-z", "--zview", action="store_true")
     parser.add_argument("-e", "--epoch", type=int, default=1000)
     args = parser.parse_args()
 
-    if args.sigmoid:
-        args.activation_func = 'sigmoid'
-
     data = Data(args.data)
 
     # add axis
-    plt.add_main_ax(args.zview)
+    if args.zview:
+        plt.add_sub_ax()
 
-    # set box size
-    plt.plot_main(data.x1, data.x2)
-    plt.quiver_main(data.x1.mean(axis=1), color="pink")
 
     #parameter: yita = learning ratio, w = initial weight
     nn = NeuralNetwork(2, data.y_all.min())
     frames = [plt.quiver_main(nn.w, color="magenta")]
 
-
+    # set initial plot
+    plt.plot_main(data.x1, data.x2)
+    plt.quiver_main(data.x1.mean(axis=1), color="pink")
     if args.zview:
-        plt.add_sub_ax()
         update_sub(nn, data)
 
     # this is animation
@@ -71,7 +65,7 @@ if __name__ == '__main__':
             update_sub(nn, data)
 
     # build animation
-    ani = animation.FuncAnimation(plt.gcf(), update_plot, fargs=[nn, frames], frames=args.epoch, interval=1, repeat=False)
+    ani = animation.FuncAnimation(plt.fig, update_plot, fargs=[nn, frames], frames=args.epoch, interval=1, repeat=False)
 
     # plt.rcParams['animation.ffmpeg_path'] = '/usr/local/bin/ffmpeg'
     #FFwriter = animation.FFMpegWriter()

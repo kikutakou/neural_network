@@ -1,13 +1,15 @@
 import argparse
 import numpy as np
+import modules.pyplot_helper as plt
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", type=int, default=300)
     parser.add_argument("-d", "--data-pattern", choices=['diag', 'left-right', 'one-others'], default='diag')
-    parser.add_argument("-l", "--label2-negative", action="store_true")
+    parser.add_argument("-l", "--label2", type=int, default=0)
     parser.add_argument("-o", "--output")
+    parser.add_argument("-v", "--visualize")
     args = parser.parse_args()
 
     # generate random data
@@ -29,8 +31,7 @@ if __name__ == '__main__':
         exit("unkown pattern: " + pattern)
 
     y1 = np.full(args.n, 1, dtype=np.int64)
-    label2 = -1 if args.label2_negative else 0
-    y2 = np.full(args.n, label2, dtype=np.int64)
+    y2 = np.full(args.n, args.label2, dtype=np.int64)
 
     xdata = np.hstack([x1, x2])
     ydata = np.hstack([y1, y2])
@@ -38,4 +39,7 @@ if __name__ == '__main__':
 
     print("".join([ "{}\t{}\t{}\n".format(x0,x1,y) for x0,x1,y in zip(xdata[0], xdata[1], ydata)]), end="")
 
+    if args.visualize:
+        plt.plot_main(x1, x2)
+        plt.show()
 
