@@ -16,20 +16,23 @@ def tanh_inv(f):
     return 1 - f ** 2
 
 
+
 class NeuralNetwork(object):
     yita = 0.1
 
     def __init__(self, n, label2=0):
         self.w = np.array([0.3, 0.3])
         self.i = 0
+        self.label2 = label2
         
         # switch activate function
-        if label2 == 0:
+        if self.label2 == 0:
             self.activate = sigmoid
             self.activate_inv = sigmoid_inv
         else:
             self.activate = tanh
             self.activate_inv = tanh_inv
+
 
     def update(self, x, y):
         u = np.dot(self.w, x)
@@ -43,7 +46,12 @@ class NeuralNetwork(object):
         self.w -= self.yita * dEdw.mean(axis=1)
 
         # test
-        ratio = (u * y > 0).sum() / len(y)
+        if self.label2 == 0:
+            y_est = np.round(u)
+        else:
+            y_est = np.ceil(y)
+
+        ratio = (y_est == y).sum() / len(y)
 
         self.i += 1
         print(self.i, "updated", self.w, loss, ratio)
