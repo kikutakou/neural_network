@@ -6,7 +6,7 @@ import sys
 import matplotlib.animation as animation
 from modules.load_data import Data
 from modules.neural_network import NeuralNetwork
-import modules.pyplot_helper as plt
+import modules.pyplot_2d as plt
 
 
 

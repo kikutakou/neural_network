@@ -1,6 +1,6 @@
 import argparse
 import numpy as np
-import modules.pyplot_helper as plt
+import modules.pyplot_2d as plt
 
 
 if __name__ == '__main__':

@@ -28,8 +28,8 @@ wy = np.arange(-5, 5.1, 0.1)
 wxy = np.meshgrid(wx, wy)
 u = wxy[0] * data[0].reshape((-1,1,1)) + wxy[1] * data[1].reshape((-1,1,1))
 
-#Ew = ((u - 1) ** 2).mean(axis=0)           #linear
-Ew = ((sigmoid(u) - 1) ** 2).mean(axis=0)       #sigmoid
+Ew = ((u - 1) ** 2).mean(axis=0)           #linear
+#Ew = ((sigmoid(u) - 1) ** 2).mean(axis=0)       #sigmoid
 
 
 ax = fig.add_subplot(111, projection='3d')
