@@ -4,12 +4,13 @@ import modules.pyplot_helper as plt
 
 
 if __name__ == '__main__':
+    
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", type=int, default=300)
-    parser.add_argument("-d", "--data-pattern", choices=['diag', 'left-right', 'one-others'], default='diag')
+    parser.add_argument("-p", "--pattern", choices=['diag', 'left-right', 'one-three'], default='diag')
     parser.add_argument("-l", "--label2", type=int, default=0)
     parser.add_argument("-o", "--output")
-    parser.add_argument("-v", "--visualize")
+    parser.add_argument("-v", "--visualize", action="store_true")
     args = parser.parse_args()
 
     # generate random data
@@ -18,13 +19,13 @@ if __name__ == '__main__':
     quadrant3 = np.array([np.random.randn(args.n) - 2, np.random.randn(args.n) - 2])
     quadrant4 = np.array([np.random.randn(args.n) + 2, np.random.randn(args.n) - 2])
 
-    if args.data_pattern == 'diag':
+    if args.pattern == 'diag':
         x1 = np.hstack([quadrant4])
         x2 = np.hstack([quadrant2])
-    elif args.data_pattern == 'left-right':
+    elif args.pattern == 'left-right':
         x1 = np.hstack([quadrant1, quadrant4])
         x2 = np.hstack([quadrant2, quadrant3])
-    elif args.data_pattern == 'one-others':
+    elif args.pattern == 'one-three':
         x1 = np.hstack([quadrant4])
         x2 = np.hstack([quadrant1, quadrant2, quadrant3])
     else:
@@ -36,10 +37,12 @@ if __name__ == '__main__':
     xdata = np.hstack([x1, x2])
     ydata = np.hstack([y1, y2])
 
+    fout = open(args.output, 'w') if args.output is not None else sys.stdout
 
-    print("".join([ "{}\t{}\t{}\n".format(x0,x1,y) for x0,x1,y in zip(xdata[0], xdata[1], ydata)]), end="")
+    print("\n".join(["{}\t{}\t{}".format(x0,x1,y) for x0,x1,y in zip(xdata[0], xdata[1], ydata)]), file=fout)
 
     if args.visualize:
         plt.plot_main(x1, x2)
         plt.show()
 
+    print("done")

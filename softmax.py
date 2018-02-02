@@ -13,7 +13,6 @@ def bc2xy(bc):
 
 
 ### triangle plot
-
 plt.figure(num=None, figsize=(5, 5), dpi=80, facecolor='w', edgecolor='k')
 plt.ylim(0, 0.9)
 plt.xlim(0, 1.0)

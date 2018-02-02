@@ -3,7 +3,6 @@ import numpy as np
 import sys
 import os
 from collections import namedtuple
-import pyplot_helper as plt
 
 
 class Data(object):
@@ -37,6 +36,7 @@ class Data(object):
 
 if __name__ == '__main__':
 
+    import pyplot_helper as plt
     data = Data('sample.txt')
     print(data)
     plt.plot_main(data.x1, data.x2)
