@@ -7,8 +7,6 @@ from collections import namedtuple
 
 class Data(object):
 
-    __slots__ = ["x1", "x2", "y1", "y2", "x_all", "y_all"]
-
     def __init__(self, file, y2label=0):
         
         # load data
@@ -26,13 +24,17 @@ class Data(object):
         self.x1 = np.array([d[0] for d in data if d[1] > 0]).T
         self.x2 = np.array([d[0] for d in data if not d[1] > 0]).T
 
-        self.y1 = np.array([d[1] for d in data if d[1]])
-        self.y2 = np.array([d[1] for d in data if not d[1]])
-
+        self.y1 = np.array([d[1] for d in data if d[1] > 0])
+        self.y2 = np.array([d[1] for d in data if not d[1] > 0])
 
         # concat
         self.x_all = np.concatenate([self.x1, self.x2], axis=1)
         self.y_all = np.concatenate([self.y1, self.y2])
+
+    def __str__(self):
+        return "x1:{} x2:{} y1:{} y2:{}".format(self.x1.shape, self.x2.shape, self.y1, self.y2)
+    
+    
 
 if __name__ == '__main__':
 

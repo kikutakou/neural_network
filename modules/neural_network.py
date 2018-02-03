@@ -4,29 +4,36 @@ import numpy as np
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
-def sigmoid_inv(f):
-    return f * (1 - f)
+def sigmoid_inv(z):
+    return z * (1 - z)
 
 def tanh(x):
     p = np.exp(x)
     n = np.exp(-x)
     return (p - n) / (p + n)
 
-def tanh_inv(f):
-    return 1 - f ** 2
+def tanh_inv(z):
+    return 1 - z ** 2
 
+def none(x):
+    return x
 
+def none_inv(z):
+    return 1
 
 class NeuralNetwork(object):
     yita = 0.1
 
-    def __init__(self, n, label2=0):
+    def __init__(self, n, label2=0, activate=True):
         self.w = np.array([0.3, 0.3])
         self.i = 0
         self.label2 = label2
         
         # switch activate function
-        if self.label2 == 0:
+        if not activate:
+            self.activate = none
+            self.activate_inv = none_inv
+        elif self.label2 == 0:
             self.activate = sigmoid
             self.activate_inv = sigmoid_inv
         else:
@@ -37,6 +44,7 @@ class NeuralNetwork(object):
     def update(self, x, y):
         u = np.dot(self.w, x)
         z = self.activate(u)
+        
         
         # backwords
         loss = ((z - y) ** 2).mean()
@@ -54,6 +62,6 @@ class NeuralNetwork(object):
         ratio = (y_est == y).sum() / len(y)
 
         self.i += 1
-        print(self.i, "updated", self.w, loss, ratio)
+        print("{:3d} updated, w:{}, loss:{:.5f}, ratio:{}".format(self.i, self.w, loss, ratio))
 
         return loss

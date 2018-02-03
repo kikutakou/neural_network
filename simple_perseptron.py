@@ -32,6 +32,7 @@ if __name__ == '__main__':
     parser.add_argument("data", help="data per line, [x[0],x[1],label] data separated by tab")
     parser.add_argument("-z", "--zview", action="store_true")
     parser.add_argument("-e", "--epoch", type=int, default=1000)
+    parser.add_argument("--no-activate", dest="activate", action="store_false")
     args = parser.parse_args()
 
     data = Data(args.data)
@@ -42,7 +43,7 @@ if __name__ == '__main__':
 
 
     #parameter: yita = learning ratio, w = initial weight
-    nn = NeuralNetwork(2, data.y_all.min())
+    nn = NeuralNetwork(2, data.y_all.min(), activate=args.activate)
     frames = [plt.quiver_main(nn.w, color="magenta")]
 
     # set initial plot

@@ -7,6 +7,7 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", type=int, default=300)
+    parser.add_argument("-s", "--shift", type=float, default=2)
     parser.add_argument("-p", "--pattern", choices=['diag', 'left-right', 'one-three'], default='diag')
     parser.add_argument("-l", "--label2", type=int, default=0)
     parser.add_argument("-o", "--output")
@@ -14,10 +15,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # generate random data
-    quadrant1 = np.array([np.random.randn(args.n) + 2, np.random.randn(args.n) + 2])
-    quadrant2 = np.array([np.random.randn(args.n) - 2, np.random.randn(args.n) + 2])
-    quadrant3 = np.array([np.random.randn(args.n) - 2, np.random.randn(args.n) - 2])
-    quadrant4 = np.array([np.random.randn(args.n) + 2, np.random.randn(args.n) - 2])
+    quadrant1 = np.array([np.random.randn(args.n) + args.shift, np.random.randn(args.n) + args.shift])
+    quadrant2 = np.array([np.random.randn(args.n) - args.shift, np.random.randn(args.n) + args.shift])
+    quadrant3 = np.array([np.random.randn(args.n) - args.shift, np.random.randn(args.n) - args.shift])
+    quadrant4 = np.array([np.random.randn(args.n) + args.shift, np.random.randn(args.n) - args.shift])
 
     if args.pattern == 'diag':
         x1 = np.hstack([quadrant4])
