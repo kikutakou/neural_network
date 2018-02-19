@@ -1,41 +1,40 @@
-# -*- coding: utf-8 -*-
+import argparse
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from modules.neural_network import sigmoid
+import modules.pyplot_3d as plt
+from modules.load_data import Data
 import time
 
 
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
-ax.set_xlim(-5,5)
-ax.set_ylim(-5,5)
+parser = argparse.ArgumentParser()
+parser.add_argument("data", help="data per line, [x[0],x[1],label] data separated by tab")
+args = parser.parse_args()
+data = Data(args.data)
 
 
-N = 300
 
-#add plot
-data = np.array([np.random.randn(N) + 2, np.random.randn(N) * 2])
-x,y = data
+# plot
+plt.plot3d(*data.x1)
 
 
-#mesh w
-wx = np.arange(-5, 5.1, 0.1)
-wy = np.arange(-5, 5.1, 0.1)
-wxy = np.meshgrid(wx, wy)
-u = wxy[0] * data[0].reshape((-1,1,1)) + wxy[1] * data[1].reshape((-1,1,1))
 
-Ew = ((u - 1) ** 2).mean(axis=0)           #linear
-#Ew = ((sigmoid(u) - 1) ** 2).mean(axis=0)       #sigmoid
+# mesh for gradients of w
+mesh_x = np.arange(-5, 5.1, 0.1)
+mesh_y = np.arange(-5, 5.1, 0.1)
+mesh = np.meshgrid(mesh_x, mesh_y)
+
+# dot products for N x MESH
+u = sum(np.expand_dims(ww, axis=2) * xx for ww, xx in zip(mesh, data.x1))
+
+# gradients
+Ew = ((u - 1) ** 2).mean(axis=2)           #linear
+#Ew = ((sigmoid(u) - 1) ** 2).mean(axis=2)       #sigmoid
 
 
-ax = fig.add_subplot(111, projection='3d')
-ax.plot(data[0], data[1], "wo")
-ax.plot_wireframe(wxy[0], wxy[1], Ew)
-
+plt.mesh3d(*mesh, Ew)
 
 
 
