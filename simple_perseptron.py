@@ -25,8 +25,8 @@ def update_sub(nn, data):
     plt.plot_sub(activate_func_xy, type="k:")
 
     # the data plots
-    s1 = [np.dot(nn.w, data.x1), data.y1]
-    s2 = [np.dot(nn.w, data.x2), data.y2]
+    s1 = [nn.u(data.x1), data.y1]
+    s2 = [nn.u(data.x2), data.y2]
     plt.plot_sub(s1, s2)
 
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
 
     #parameter: yita = learning ratio, w = initial weight
-    nn = NeuralNetwork(2, data.y_all.min(), activate=args.activate)
+    nn = NeuralNetwork(2, data.labels[1], activate=args.activate)
     frames = [plt.quiver_main(nn.w, color="magenta")]
 
     # set initial plot
