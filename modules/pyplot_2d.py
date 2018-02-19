@@ -51,6 +51,15 @@ def plot_sub(*data, type="o", xrange=[-5, 5], yrange=[-1.5, 1.5]):
     ax2.set_xlim(*xrange)
     ax2.set_ylim(*yrange)
 
+
+def anime_save_to(ani, file):
+    plt.rcParams['animation.ffmpeg_path'] = '/usr/local/bin/ffmpeg'
+    FFwriter = animation.FFMpegWriter()
+    ani.save('simple_perseptron.mp4', writer = FFwriter, fps=30, extra_args=['-vcodec', 'libx264'])
+    ani.save('simple_perseptron.gif', writer='imagemagick')
+    print('saved')
+
+
 def show():
     plt.show()
 

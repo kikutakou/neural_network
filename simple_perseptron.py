@@ -73,11 +73,7 @@ if __name__ == '__main__':
     # build animation
     ani = animation.FuncAnimation(plt.fig, update_plot, fargs=[nn, frames], frames=args.epoch, interval=1, repeat=False)
 
-    # plt.rcParams['animation.ffmpeg_path'] = '/usr/local/bin/ffmpeg'
-    #FFwriter = animation.FFMpegWriter()
-    #ani.save('simple_perseptron.mp4', writer = FFwriter, fps=30, extra_args=['-vcodec', 'libx264'])
-    #ani.save('simple_perseptron.gif', writer='imagemagick')
-    #print('saved')
+#    plt.anime_save_to(ani, "test")
 
     plt.show()
 
