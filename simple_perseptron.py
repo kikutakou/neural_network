@@ -11,18 +11,23 @@ import modules.pyplot_2d as plt
 
 
 
-activate_plot = None
+activate_func_xy = None
+
 def update_sub(nn, data):
-    global activate_plot
-    if activate_plot is None:
+    plt.clear_sub()
+
+    # activate function dot line
+    global activate_func_xy
+    if activate_func_xy is None:
         x_afunc = np.arange(-5, 5, 0.1)
         y_afunc = nn.activate(x_afunc)
-        activate_plot = [x_afunc, y_afunc]
+        activate_func_xy = [x_afunc, y_afunc]
+    plt.plot_sub(activate_func_xy, type="k:")
+
+    # the data plots
     s1 = [np.dot(nn.w, data.x1), data.y1]
     s2 = [np.dot(nn.w, data.x2), data.y2]
-    plt.clear_sub()
     plt.plot_sub(s1, s2)
-    plt.plot_sub(activate_plot, type="k:")
 
 
 

@@ -16,6 +16,8 @@ class Data(object):
             fin = open(file)
         else:
             exit("file {} not found".format(file))
+        
+        # read file at once
         data_txt = [line.rstrip("\r\n").split("\t") for line in fin.readlines()]
 
         # parse (txt to float,int)
